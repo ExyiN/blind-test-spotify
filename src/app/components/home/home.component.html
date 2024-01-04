@@ -1,0 +1,10 @@
+<div class="container-center">
+  <h1>Blind test</h1>
+  <h2>Entrez un ID de playlist Spotify</h2>
+  <input type="text" pInputText [(ngModel)]="playlistId" />
+  <p-button
+    label="Jouer"
+    [disabled]="!playlistId"
+    (onClick)="play()"
+  ></p-button>
+</div>
