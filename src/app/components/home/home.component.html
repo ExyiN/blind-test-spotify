@@ -1,0 +1,9 @@
+<div class="container-center">
+  <h1>Blind test</h1>
+  @if (isConnected | async) {
+  <p-button label="Lancer une partie" (onClick)="createGame()"></p-button>
+  <p-button label="Se déconnecter" (onClick)="logOut()"></p-button>
+  } @else {
+  <p-button label="Se connecter avec Spotify" (onClick)="connect()"></p-button>
+  }
+</div>
