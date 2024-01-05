@@ -8,16 +8,23 @@ import { spotifyClient } from '../../environment/spotify';
   providedIn: 'root',
 })
 export class AuthenticationService {
-  private api!: SpotifyApi;
+  private api_!: SpotifyApi;
+
+  public get api(): SpotifyApi {
+    if (!this.api_) {
+      this.initApi();
+    }
+    return this.api_;
+  }
 
   constructor(private router: Router) {}
 
   public initApi() {
-    if (this.api) {
+    if (this.api_) {
       return;
     }
 
-    this.api = SpotifyApi.withUserAuthorization(
+    this.api_ = SpotifyApi.withUserAuthorization(
       spotifyClient.clientId,
       environment.appUrl,
       ['user-read-playback-state', 'user-modify-playback-state']
@@ -25,11 +32,11 @@ export class AuthenticationService {
   }
 
   public connect() {
-    this.api.authenticate();
+    this.api_.authenticate();
   }
 
   public logOut() {
-    this.api.logOut();
+    this.api_.logOut();
     localStorage.removeItem('spotify-sdk:verifier');
     this.router.navigateByUrl('home');
   }

@@ -1,1 +1,74 @@
-<p>create-game works!</p>
+<div class="p-7">
+  <h1>Créer une partie</h1>
+  <form [formGroup]="config" (submit)="play()">
+    <div class="mt-6 flex flex-column gap-6">
+      <div class="flex gap-3">
+        <div class="p-float-label">
+          <p-dropdown
+            formControlName="deviceId"
+            [options]="availableDevices"
+            optionLabel="name"
+            optionValue="id"
+            placeholder="Sélectionner un appareil"
+            inputId="device"
+            [showClear]="true"
+            emptyMessage="Aucun appareil trouvé"
+          ></p-dropdown>
+          <label for="device">Appareil</label>
+        </div>
+        <p-button
+          icon="pi pi-refresh"
+          [outlined]="true"
+          severity="secondary"
+          (onClick)="searchAvailableDevices()"
+        ></p-button>
+      </div>
+      <div class="flex flex-column gap-1">
+        <div class="p-float-label">
+          <input
+            type="text"
+            pInputText
+            formControlName="playlistId"
+            id="playlistId"
+          />
+          <label for="playlistId">ID de la playlist</label>
+        </div>
+        @if (config.get('playlistId')?.hasError('invalidId')) {
+        <span class="text-xs text-red-600">Playlist non valide</span>
+        }
+      </div>
+      <div class="p-float-label">
+        <p-inputNumber
+          inputId="numberOfTracks"
+          formControlName="numberOfTracks"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          [min]="minTracks"
+          [max]="maxTracks"
+          incrementButtonClass="p-button-secondary p-button-outlined"
+          decrementButtonClass="p-button-secondary p-button-outlined"
+        ></p-inputNumber>
+        <label for="numberOfTracks">Nombre de musiques</label>
+      </div>
+      <div class="p-float-label">
+        <p-inputNumber
+          inputId="guessDuration"
+          formControlName="guessDuration"
+          [showButtons]="true"
+          buttonLayout="horizontal"
+          [min]="minDuration"
+          [max]="maxDuration"
+          suffix=" s"
+          incrementButtonClass="p-button-secondary p-button-outlined"
+          decrementButtonClass="p-button-secondary p-button-outlined"
+        ></p-inputNumber>
+        <label for="guessDuration">Durée de l'extrait</label>
+      </div>
+      <p-button
+        label="Jouer"
+        type="submit"
+        [disabled]="config.invalid"
+      ></p-button>
+    </div>
+  </form>
+</div>

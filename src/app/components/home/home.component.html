@@ -4,7 +4,7 @@
   <h1>Blind test</h1>
   @if (authenticationService.isConnected()) {
   <div class="flex gap-3">
-    <p-button label="Lancer une partie" (onClick)="createGame()"></p-button>
+    <p-button label="Créer une partie" (onClick)="createGame()"></p-button>
     <p-button label="Se déconnecter" (onClick)="logOut()"></p-button>
   </div>
   } @else {
