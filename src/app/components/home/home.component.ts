@@ -1,32 +1,38 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
-import { FormsModule } from '@angular/forms';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Params, Router } from '@angular/router';
 import { ButtonModule } from 'primeng/button';
-import { InputTextModule } from 'primeng/inputtext';
 import { AuthenticationService } from '../../services/authentication.service';
 
 @Component({
   selector: 'app-home',
   standalone: true,
-  imports: [CommonModule, FormsModule, InputTextModule, ButtonModule],
+  imports: [CommonModule, ButtonModule],
   templateUrl: './home.component.html',
   styleUrl: './home.component.css',
 })
 export class HomeComponent implements OnInit {
-  public isConnected!: Promise<boolean>;
-
   constructor(
     private router: Router,
-    private authenticationService: AuthenticationService
+    public authenticationService: AuthenticationService,
+    private activatedRoute: ActivatedRoute
   ) {}
 
   ngOnInit(): void {
-    this.isConnected = this.authenticationService.isConnected();
+    this.authenticationService.initApi();
+    this.activatedRoute.queryParams.subscribe({
+      next: (params: Params) => {
+        if (params['code']) {
+          this.connect();
+        } else if (params['error']) {
+          this.logOut();
+        }
+      },
+    });
   }
 
   public connect() {
-    this.authenticationService.initApi();
+    this.authenticationService.connect();
   }
 
   public logOut() {
