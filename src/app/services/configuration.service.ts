@@ -11,6 +11,10 @@ export class ConfigurationService {
   constructor(private authenticationService: AuthenticationService) {}
 
   public getConfiguration(): GameConfiguration {
+    const cacheConfig: string | null = localStorage.getItem('game-config');
+    if (!this.configuration && cacheConfig) {
+      this.configuration = JSON.parse(cacheConfig);
+    }
     return this.configuration;
   }
 
@@ -31,5 +35,6 @@ export class ConfigurationService {
 
   public saveConfiguration(config: GameConfiguration) {
     this.configuration = config;
+    localStorage.setItem('game-config', JSON.stringify(this.configuration));
   }
 }

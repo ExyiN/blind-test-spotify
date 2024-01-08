@@ -1,1 +1,20 @@
-<p-button label="Suivant" (onClick)="next()"></p-button>
+<div
+  class="flex flex-column justify-content-center align-items-center min-h-screen"
+>
+  @if (isGameInit) { @if (isPlaying) {
+  <h2>{{ timeLeft | async }}</h2>
+  <p-progressBar
+    [value]="(((timeLeft | async) ?? 0) / guessDuration) * 100"
+    [showValue]="false"
+  ></p-progressBar>
+  } @else {
+  <img [src]="getCurrentTrack().album.images[0].url" />
+  <h2>
+    {{ getCurrentTrack().artists[0].name | uppercase }} -
+    {{ getCurrentTrack().name }}
+  </h2>
+  <p-button label="Suivant" (onClick)="nextSong()"></p-button>
+  } } @else {
+  <p-progressSpinner strokeWidth="8"></p-progressSpinner>
+  }
+</div>
