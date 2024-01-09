@@ -1,20 +1,24 @@
 <div
   class="flex flex-column justify-content-center align-items-center min-h-screen"
 >
-  @if (isGameInit) { @if (isPlaying) {
-  <h2>{{ timeLeft | async }}</h2>
+  @if (!(isLoading | async)) { @if (isPlaying) {
+  <span class="text-8xl font-bold mb-7">{{ timeLeft | async }}</span>
   <p-progressBar
     [value]="(((timeLeft | async) ?? 0) / guessDuration) * 100"
     [showValue]="false"
+    class="w-9"
   ></p-progressBar>
   } @else {
-  <img [src]="getCurrentTrack().album.images[0].url" />
+  <img
+    [src]="getCurrentTrack().album.images[0].url"
+    [alt]="getCurrentTrack().album.name"
+  />
   <h2>
-    {{ getCurrentTrack().artists[0].name | uppercase }} -
+    {{ getCurrentTrack().artists[0].name }} -
     {{ getCurrentTrack().name }}
   </h2>
   <p-button label="Suivant" (onClick)="nextSong()"></p-button>
   } } @else {
-  <p-progressSpinner strokeWidth="8"></p-progressSpinner>
+  <app-loader></app-loader>
   }
 </div>

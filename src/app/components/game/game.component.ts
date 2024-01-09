@@ -1,23 +1,19 @@
 import { CommonModule } from '@angular/common';
 import { Component, OnInit } from '@angular/core';
+import { Track } from '@spotify/web-api-ts-sdk';
 import { ButtonModule } from 'primeng/button';
 import { ProgressBarModule } from 'primeng/progressbar';
-import { ProgressSpinnerModule } from 'primeng/progressspinner';
 import { Observable, skip } from 'rxjs';
 import { ConfigurationService } from '../../services/configuration.service';
 import { GameService } from '../../services/game.service';
+import { LoaderService } from '../../services/loader.service';
 import { TimerService } from '../../services/timer.service';
-import { Track } from '@spotify/web-api-ts-sdk';
+import { LoaderComponent } from '../loader/loader.component';
 
 @Component({
   selector: 'app-game',
   standalone: true,
-  imports: [
-    CommonModule,
-    ButtonModule,
-    ProgressBarModule,
-    ProgressSpinnerModule,
-  ],
+  imports: [LoaderComponent, CommonModule, ButtonModule, ProgressBarModule],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
 })
@@ -25,21 +21,22 @@ export class GameComponent implements OnInit {
   public timeLeft!: Observable<number>;
   public guessDuration!: number;
   public isPlaying!: boolean;
-  public isGameInit!: boolean;
+  public isLoading!: Observable<boolean>;
 
   constructor(
     private configurationService: ConfigurationService,
     private gameService: GameService,
-    private timer: TimerService
+    private timer: TimerService,
+    private loader: LoaderService
   ) {}
 
   ngOnInit(): void {
-    this.isGameInit = false;
+    this.isLoading = this.loader.isLoading;
     this.guessDuration =
       this.configurationService.getConfiguration().guessDuration;
     this.timeLeft = this.timer.timer;
     this.gameService.initGame().then(() => {
-      this.isGameInit = true;
+      this.loader.setLoading(false);
       this.nextSong();
     });
     this.timeLeft.pipe(skip(1)).subscribe({
@@ -54,9 +51,7 @@ export class GameComponent implements OnInit {
 
   public nextSong() {
     this.isPlaying = true;
-    this.gameService.playNextSong().then(() => {
-      this.timer.start(this.guessDuration);
-    });
+    this.gameService.playNextSong();
   }
 
   public getCurrentTrack(): Track {

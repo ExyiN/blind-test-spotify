@@ -22,13 +22,9 @@ export class ConfigurationService {
     return this.authenticationService.api.playlists
       .getPlaylist(playlistId)
       .then(() => {
-        console.log('VALID');
-
         return true;
       })
       .catch(() => {
-        console.log('NOT VALID');
-
         return false;
       });
   }
@@ -36,5 +32,9 @@ export class ConfigurationService {
   public saveConfiguration(config: GameConfiguration) {
     this.configuration = config;
     localStorage.setItem('game-config', JSON.stringify(this.configuration));
+  }
+
+  public deleteConfiguration() {
+    localStorage.removeItem('game-config');
   }
 }

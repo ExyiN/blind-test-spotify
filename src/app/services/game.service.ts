@@ -1,7 +1,10 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
+import { Page, PlaylistedTrack, Track } from '@spotify/web-api-ts-sdk';
 import { AuthenticationService } from './authentication.service';
 import { ConfigurationService } from './configuration.service';
-import { Episode, Page, PlaylistedTrack, Track } from '@spotify/web-api-ts-sdk';
+import { LoaderService } from './loader.service';
+import { TimerService } from './timer.service';
 
 @Injectable({
   providedIn: 'root',
@@ -13,10 +16,14 @@ export class GameService {
 
   constructor(
     private authenticationService: AuthenticationService,
-    private configurationService: ConfigurationService
+    private configurationService: ConfigurationService,
+    private timer: TimerService,
+    private router: Router,
+    private loader: LoaderService
   ) {}
 
   public async initGame(): Promise<void> {
+    this.loader.setLoading(true);
     this.playlistItems = [];
     this.queue = [];
     this.currentPlayingSongIndex = -1;
@@ -75,46 +82,51 @@ export class GameService {
       });
   }
 
-  public async playNextSong(): Promise<void> {
+  public async playNextSong() {
+    const deviceId = this.configurationService.getConfiguration().deviceId;
+    this.loader.setLoading(true);
     this.currentPlayingSongIndex++;
-    return this.authenticationService.api.player
+    if (
+      this.currentPlayingSongIndex ===
+      this.configurationService.getConfiguration().numberOfTracks
+    ) {
+      this.router.navigateByUrl('end');
+      this.configurationService.deleteConfiguration();
+      return;
+    }
+    const randomPos: number = Math.floor(
+      Math.random() *
+        (this.queue[this.currentPlayingSongIndex].duration_ms -
+          this.configurationService.getConfiguration().guessDuration * 1000 -
+          5000)
+    );
+    this.authenticationService.api.player.setPlaybackVolume(0, deviceId);
+    this.authenticationService.api.player
       .addItemToPlaybackQueue(
         this.queue[this.currentPlayingSongIndex].uri,
-        this.configurationService.getConfiguration().deviceId
+        deviceId
       )
       .then(() => {
-        this.authenticationService.api.player.setPlaybackVolume(0).then(() => {
+        setTimeout(() => {
           this.authenticationService.api.player
-            .skipToNext(this.configurationService.getConfiguration().deviceId)
+            .skipToNext(deviceId)
             .then(() => {
-              this.pausePlayer();
-              const randomPos: number = Math.floor(
-                Math.random() *
-                  (this.queue[this.currentPlayingSongIndex].duration_ms -
-                    this.configurationService.getConfiguration().guessDuration *
-                      1000 -
-                    5000)
-              );
-              this.authenticationService.api.player
-                .seekToPosition(
-                  randomPos,
-                  this.configurationService.getConfiguration().deviceId
-                )
-                .then(() => {
-                  this.authenticationService.api.player
-                    .setPlaybackVolume(50)
-                    .then(() => {
-                      this.authenticationService.api.player
-                        .startResumePlayback(
-                          this.configurationService.getConfiguration().deviceId
-                        )
-                        .then(() => {
-                          return;
-                        });
-                    });
-                });
+              setTimeout(() => {
+                this.authenticationService.api.player
+                  .seekToPosition(randomPos, deviceId)
+                  .then(() => {
+                    this.authenticationService.api.player.setPlaybackVolume(
+                      50,
+                      deviceId
+                    );
+                    this.loader.setLoading(false);
+                    this.timer.start(
+                      this.configurationService.getConfiguration().guessDuration
+                    );
+                  });
+              }, 500);
             });
-        });
+        }, 500);
       });
   }
 
