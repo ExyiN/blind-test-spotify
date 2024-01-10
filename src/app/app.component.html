@@ -1,1 +1,16 @@
 <router-outlet></router-outlet>
+@if (theme === 'light') {
+<p-button
+  icon="pi pi-sun"
+  [text]="true"
+  class="fixed bottom-0"
+  (onClick)="toggleTheme()"
+></p-button>
+} @else {
+<p-button
+  icon="pi pi-moon"
+  [text]="true"
+  class="fixed bottom-0"
+  (onClick)="toggleTheme()"
+></p-button>
+}

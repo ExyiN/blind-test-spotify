@@ -20,7 +20,16 @@
             "tsConfig": "tsconfig.app.json",
             "assets": ["src/favicon.ico", "src/assets"],
             "styles": [
-              "node_modules/primeng/resources/themes/lara-dark-green/theme.css",
+              {
+                "input": "node_modules/primeng/resources/themes/lara-light-green/theme.css",
+                "bundleName": "lara-light-green",
+                "inject": false
+              },
+              {
+                "input": "node_modules/primeng/resources/themes/lara-dark-green/theme.css",
+                "bundleName": "lara-dark-green",
+                "inject": false
+              },
               "node_modules/primeng/resources/primeng.min.css",
               "node_modules/primeflex/primeflex.css",
               "src/styles.css"
