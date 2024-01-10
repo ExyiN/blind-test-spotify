@@ -34,7 +34,7 @@
           <label for="playlistId">ID de la playlist</label>
         </div>
         @if (config.get('playlistId')?.hasError('invalidId')) {
-        <span class="text-xs text-red-600">Playlist non valide</span>
+        <small class="p-error">Playlist non valide</small>
         }
       </div>
       <div class="p-float-label">
