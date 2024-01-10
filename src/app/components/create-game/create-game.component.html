@@ -64,11 +64,20 @@
         ></p-inputNumber>
         <label for="guessDuration">Durée de l'extrait</label>
       </div>
-      <p-button
-        label="Jouer"
-        type="submit"
-        [disabled]="config.invalid"
-      ></p-button>
+      <div class="flex gap-3">
+        <p-button
+          label="Retour"
+          type="button"
+          [outlined]="true"
+          severity="secondary"
+          (onClick)="goToHome()"
+        ></p-button>
+        <p-button
+          label="Jouer"
+          type="submit"
+          [disabled]="config.invalid"
+        ></p-button>
+      </div>
     </div>
   </form>
 </div>

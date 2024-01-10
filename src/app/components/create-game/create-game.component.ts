@@ -89,4 +89,8 @@ export class CreateGameComponent implements OnInit {
         }
       });
   }
+
+  public goToHome() {
+    this.router.navigateByUrl('home');
+  }
 }
