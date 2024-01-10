@@ -39,7 +39,7 @@ export class GameService {
           this.configurationService.getConfiguration().deviceId
         );
         this.authenticationService.api.player.setPlaybackVolume(
-          50,
+          this.configurationService.getPlayerVolume(),
           this.configurationService.getConfiguration().deviceId
         );
       });
@@ -116,7 +116,7 @@ export class GameService {
                   .seekToPosition(randomPos, deviceId)
                   .then(() => {
                     this.authenticationService.api.player.setPlaybackVolume(
-                      50,
+                      this.configurationService.getPlayerVolume(),
                       deviceId
                     );
                     this.loader.setLoading(false);
@@ -138,5 +138,12 @@ export class GameService {
 
   public getCurrentTrack(): Track {
     return this.queue[this.currentPlayingSongIndex];
+  }
+
+  public modifyVolume(volume: number) {
+    this.authenticationService.api.player.setPlaybackVolume(
+      volume,
+      this.configurationService.getConfiguration().deviceId
+    );
   }
 }

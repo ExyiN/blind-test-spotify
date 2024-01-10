@@ -63,7 +63,6 @@ export class CreateGameComponent implements OnInit {
           Validators.max(this.maxDuration),
         ],
       ],
-      volume: [50],
     });
   }
 

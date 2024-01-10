@@ -1,0 +1,8 @@
+<div class="w-full flex flex-column align-items-center gap-6">
+  <span class="text-8xl font-bold">{{ timeLeft }}</span>
+  <p-progressBar
+    [value]="(timeLeft / startTime) * 100"
+    [showValue]="false"
+    class="w-full"
+  ></p-progressBar>
+</div>

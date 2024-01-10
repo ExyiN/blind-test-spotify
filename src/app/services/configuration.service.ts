@@ -37,4 +37,16 @@ export class ConfigurationService {
   public deleteConfiguration() {
     localStorage.removeItem('game-config');
   }
+
+  public getPlayerVolume(): number {
+    const volume: string | null = localStorage.getItem('player-volume');
+    if (!volume) {
+      return 50;
+    }
+    return +volume;
+  }
+
+  public modifyVolume(volume: number) {
+    localStorage.setItem('player-volume', `${volume}`);
+  }
 }

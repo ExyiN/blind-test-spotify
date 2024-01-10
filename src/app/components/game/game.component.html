@@ -1,23 +1,26 @@
 <div
-  class="flex flex-column justify-content-center align-items-center min-h-screen"
+  class="flex flex-column justify-content-center align-items-center h-screen p-5"
 >
   @if (!(isLoading | async)) { @if (isPlaying) {
-  <span class="text-8xl font-bold mb-7">{{ timeLeft | async }}</span>
-  <p-progressBar
-    [value]="(((timeLeft | async) ?? 0) / guessDuration) * 100"
-    [showValue]="false"
-    class="w-9"
-  ></p-progressBar>
+  <div class="w-9 m-auto">
+    <app-timer
+      [timeLeft]="(timeLeft | async)!"
+      [startTime]="guessDuration"
+    ></app-timer>
+  </div>
+  <div class="align-self-end">
+    <app-volume-slider></app-volume-slider>
+  </div>
   } @else {
-  <img
-    [src]="getCurrentTrack().album.images[0].url"
-    [alt]="getCurrentTrack().album.name"
-  />
-  <h2>
-    {{ getCurrentTrack().artists[0].name }} -
-    {{ getCurrentTrack().name }}
-  </h2>
-  <p-button label="Suivant" (onClick)="nextSong()"></p-button>
+  <div class="h-full">
+    <app-answer
+      [albumImg]="getCurrentTrack().album.images[1].url"
+      [albumName]="getCurrentTrack().album.name"
+      [artistName]="getCurrentTrack().artists[0].name"
+      [title]="getCurrentTrack().name"
+      (onNext)="nextSong()"
+    ></app-answer>
+  </div>
   } } @else {
   <app-loader></app-loader>
   }

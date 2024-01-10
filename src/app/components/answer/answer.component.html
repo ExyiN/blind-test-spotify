@@ -1,0 +1,12 @@
+<div
+  class="flex flex-column align-items-center justify-content-center h-full gap-6"
+>
+  <div class="flex flex-column align-items-center gap-3">
+    <p-image [src]="albumImg" [alt]="albumName"></p-image>
+    <span class="text-xl font-bold">
+      {{ title }}
+    </span>
+    <span>{{ artistName }}</span>
+  </div>
+  <p-button label="Suivant" (onClick)="next()"></p-button>
+</div>
