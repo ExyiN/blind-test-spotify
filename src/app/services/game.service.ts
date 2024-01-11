@@ -100,7 +100,7 @@ export class GameService {
           this.configurationService.getConfiguration().guessDuration * 1000 -
           5000)
     );
-    this.authenticationService.api.player.setPlaybackVolume(0, deviceId);
+    this.authenticationService.api.player.setPlaybackVolume(1, deviceId);
     this.authenticationService.api.player
       .addItemToPlaybackQueue(
         this.queue[this.currentPlayingSongIndex].uri,
