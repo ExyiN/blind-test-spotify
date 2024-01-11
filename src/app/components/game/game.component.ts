@@ -10,6 +10,7 @@ import { AnswerComponent } from '../answer/answer.component';
 import { LoaderComponent } from '../loader/loader.component';
 import { TimerComponent } from '../timer/timer.component';
 import { VolumeSliderComponent } from '../volume-slider/volume-slider.component';
+import { ButtonModule } from 'primeng/button';
 
 @Component({
   selector: 'app-game',
@@ -20,6 +21,7 @@ import { VolumeSliderComponent } from '../volume-slider/volume-slider.component'
     AnswerComponent,
     VolumeSliderComponent,
     CommonModule,
+    ButtonModule,
   ],
   templateUrl: './game.component.html',
   styleUrl: './game.component.css',
@@ -61,6 +63,10 @@ export class GameComponent implements OnInit {
   public nextSong() {
     this.isPlaying = true;
     this.gameService.playNextSong();
+  }
+
+  public skip() {
+    this.timer.setTime(3);
   }
 
   public getCurrentTrack(): Track {

@@ -2,11 +2,21 @@
   class="flex flex-column justify-content-center align-items-center h-screen p-5"
 >
   @if (!(isLoading | async)) { @if (isPlaying) {
-  <div class="w-9 m-auto">
+  <div class="w-9 m-auto flex flex-column gap-2">
     <app-timer
       [timeLeft]="(timeLeft | async)!"
       [startTime]="guessDuration"
     ></app-timer>
+    <p-button
+      label="Passer"
+      icon="pi pi-angle-double-right"
+      iconPos="right"
+      [text]="true"
+      severity="secondary"
+      class="align-self-end"
+      (onClick)="skip()"
+      [disabled]="(timeLeft | async)! <= 3"
+    ></p-button>
   </div>
   <div class="align-self-end">
     <app-volume-slider></app-volume-slider>

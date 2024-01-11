@@ -26,4 +26,8 @@ export class TimerService {
   public stop() {
     this.timer$.next(0);
   }
+
+  public setTime(time: number) {
+    this.timer$.next(time);
+  }
 }
