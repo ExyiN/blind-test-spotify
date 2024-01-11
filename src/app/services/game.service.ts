@@ -115,14 +115,18 @@ export class GameService {
                 this.authenticationService.api.player
                   .seekToPosition(randomPos, deviceId)
                   .then(() => {
-                    this.authenticationService.api.player.setPlaybackVolume(
-                      this.configurationService.getPlayerVolume(),
-                      deviceId
-                    );
-                    this.loader.setLoading(false);
-                    this.timer.start(
-                      this.configurationService.getConfiguration().guessDuration
-                    );
+                    this.authenticationService.api.player
+                      .setPlaybackVolume(
+                        this.configurationService.getPlayerVolume(),
+                        deviceId
+                      )
+                      .then(() => {
+                        this.loader.setLoading(false);
+                        this.timer.start(
+                          this.configurationService.getConfiguration()
+                            .guessDuration
+                        );
+                      });
                   });
               }, 500);
             });
