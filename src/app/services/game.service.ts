@@ -86,14 +86,6 @@ export class GameService {
     const deviceId = this.configurationService.getConfiguration().deviceId;
     this.loader.setLoading(true);
     this.currentPlayingSongIndex++;
-    if (
-      this.currentPlayingSongIndex ===
-      this.configurationService.getConfiguration().numberOfTracks
-    ) {
-      this.router.navigateByUrl('end');
-      this.configurationService.deleteConfiguration();
-      return;
-    }
     const randomPos: number = Math.floor(
       Math.random() *
         (this.queue[this.currentPlayingSongIndex].duration_ms -
@@ -144,10 +136,19 @@ export class GameService {
     return this.queue[this.currentPlayingSongIndex];
   }
 
+  public getCurrentTrackIndex(): number {
+    return this.currentPlayingSongIndex;
+  }
+
   public modifyVolume(volume: number) {
     this.authenticationService.api.player.setPlaybackVolume(
       volume,
       this.configurationService.getConfiguration().deviceId
     );
+  }
+
+  public endGame() {
+    this.router.navigateByUrl('end');
+    this.configurationService.deleteConfiguration();
   }
 }

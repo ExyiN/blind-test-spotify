@@ -61,6 +61,13 @@ export class GameComponent implements OnInit {
   }
 
   public nextSong() {
+    if (
+      this.gameService.getCurrentTrackIndex() ===
+      this.configurationService.getConfiguration().numberOfTracks - 1
+    ) {
+      this.gameService.endGame();
+      return;
+    }
     this.isPlaying = true;
     this.gameService.playNextSong();
   }
@@ -71,5 +78,11 @@ export class GameComponent implements OnInit {
 
   public getCurrentTrack(): Track {
     return this.gameService.getCurrentTrack();
+  }
+
+  public getGameProgression(): string {
+    return `${this.gameService.getCurrentTrackIndex() + 1} / ${
+      this.configurationService.getConfiguration().numberOfTracks
+    }`;
   }
 }

@@ -1,7 +1,11 @@
 <div
   class="flex flex-column justify-content-center align-items-center h-screen p-5"
 >
-  @if (!(isLoading | async)) { @if (isPlaying) {
+  @if (!(isLoading | async)) {
+  <span class="text-xl font-bold align-self-end">{{
+    getGameProgression()
+  }}</span>
+  @if (isPlaying) {
   <div class="w-9 m-auto flex flex-column gap-2">
     <app-timer
       [timeLeft]="(timeLeft | async)!"
@@ -22,7 +26,7 @@
     <app-volume-slider></app-volume-slider>
   </div>
   } @else {
-  <div class="h-full">
+  <div class="m-auto">
     <app-answer
       [albumImg]="getCurrentTrack().album.images[1].url"
       [albumName]="getCurrentTrack().album.name"
