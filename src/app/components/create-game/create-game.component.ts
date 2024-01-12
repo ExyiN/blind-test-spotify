@@ -13,6 +13,7 @@ import { InputNumberModule } from 'primeng/inputnumber';
 import { InputTextModule } from 'primeng/inputtext';
 import { AuthenticationService } from '../../services/authentication.service';
 import { ConfigurationService } from '../../services/configuration.service';
+import { InputSwitchModule } from 'primeng/inputswitch';
 
 @Component({
   selector: 'app-create-game',
@@ -23,6 +24,7 @@ import { ConfigurationService } from '../../services/configuration.service';
     DropdownModule,
     ButtonModule,
     InputTextModule,
+    InputSwitchModule,
   ],
   templateUrl: './create-game.component.html',
   styleUrl: './create-game.component.css',
@@ -63,6 +65,7 @@ export class CreateGameComponent implements OnInit {
           Validators.max(this.maxDuration),
         ],
       ],
+      hideAnswers: [false, [Validators.required]],
     });
   }
 
