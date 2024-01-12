@@ -3,4 +3,5 @@ export interface GameConfiguration {
   playlistId: string;
   numberOfTracks: number;
   guessDuration: number;
+  hideAnswers: boolean;
 }

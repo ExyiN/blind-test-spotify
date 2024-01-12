@@ -1,3 +1,10 @@
+@if (hideAnswer) {
+<p-button
+  label="Afficher la réponse"
+  (onClick)="showAnswer()"
+  icon="pi pi-eye"
+></p-button>
+} @else {
 <div class="flex flex-column align-items-center gap-6">
   <div class="flex flex-column align-items-center gap-3">
     <p-image [src]="albumImg" [alt]="albumName"></p-image>
@@ -8,3 +15,4 @@
   </div>
   <p-button label="Suivant" (onClick)="next()"></p-button>
 </div>
+}
