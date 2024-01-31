@@ -5,6 +5,7 @@ import { AuthenticationService } from './authentication.service';
 import { ConfigurationService } from './configuration.service';
 import { LoaderService } from './loader.service';
 import { TimerService } from './timer.service';
+import { PlayerService } from './player.service';
 
 @Injectable({
   providedIn: 'root',
@@ -19,7 +20,8 @@ export class GameService {
     private configurationService: ConfigurationService,
     private timer: TimerService,
     private router: Router,
-    private loader: LoaderService
+    private loader: LoaderService,
+    private playerService: PlayerService
   ) {}
 
   public async initGame(): Promise<void> {
@@ -150,5 +152,6 @@ export class GameService {
   public endGame() {
     this.router.navigateByUrl('end');
     this.configurationService.deleteConfiguration();
+    this.playerService.disconnect();
   }
 }

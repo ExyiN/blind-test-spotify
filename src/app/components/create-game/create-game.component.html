@@ -2,27 +2,6 @@
   <h1>Créer une partie</h1>
   <form [formGroup]="config" (submit)="play()">
     <div class="mt-6 flex flex-column gap-6">
-      <div class="flex gap-3">
-        <div class="p-float-label">
-          <p-dropdown
-            formControlName="deviceId"
-            [options]="availableDevices"
-            optionLabel="name"
-            optionValue="id"
-            placeholder="Sélectionner un appareil"
-            inputId="device"
-            [showClear]="true"
-            emptyMessage="Aucun appareil trouvé"
-          ></p-dropdown>
-          <label for="device">Appareil</label>
-        </div>
-        <p-button
-          icon="pi pi-refresh"
-          [outlined]="true"
-          severity="secondary"
-          (onClick)="searchAvailableDevices()"
-        ></p-button>
-      </div>
       <div class="flex flex-column gap-1">
         <div class="p-float-label">
           <input
