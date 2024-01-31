@@ -19,6 +19,7 @@
     "@angular/platform-browser-dynamic": "^17.0.0",
     "@angular/router": "^17.0.0",
     "@spotify/web-api-ts-sdk": "^1.1.2",
+    "@types/spotify-web-playback-sdk": "^0.1.19",
     "primeflex": "^3.3.1",
     "primeicons": "^6.0.1",
     "primeng": "^17.3.0",

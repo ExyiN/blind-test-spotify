@@ -27,7 +27,13 @@ export class AuthenticationService {
     this.api_ = SpotifyApi.withUserAuthorization(
       spotifyClient.clientId,
       environment.appUrl,
-      ['user-read-playback-state', 'user-modify-playback-state']
+      [
+        'user-read-playback-state',
+        'user-modify-playback-state',
+        'streaming',
+        'user-read-email',
+        'user-read-private',
+      ]
     );
   }
 
