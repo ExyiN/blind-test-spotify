@@ -52,7 +52,7 @@ export class GameComponent implements OnInit {
     });
     this.timeLeft.pipe(skip(1)).subscribe({
       next: (value: number) => {
-        if (value < 0) {
+        if (value <= 0) {
           this.isPlaying = false;
           this.gameService.pausePlayer();
         }

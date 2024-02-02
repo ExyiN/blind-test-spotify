@@ -37,13 +37,7 @@ export class GameService {
     this.authenticationService.api.player
       .transferPlayback([this.configurationService.getConfiguration().deviceId])
       .then(() => {
-        this.authenticationService.api.player.pausePlayback(
-          this.configurationService.getConfiguration().deviceId
-        );
-        this.authenticationService.api.player.setPlaybackVolume(
-          this.configurationService.getPlayerVolume(),
-          this.configurationService.getConfiguration().deviceId
-        );
+        this.playerService.player.pause();
       });
   }
 
@@ -94,7 +88,6 @@ export class GameService {
           this.configurationService.getConfiguration().guessDuration * 1000 -
           5000)
     );
-    this.authenticationService.api.player.setPlaybackVolume(1, deviceId);
     this.authenticationService.api.player
       .addItemToPlaybackQueue(
         this.queue[this.currentPlayingSongIndex].uri,
@@ -102,36 +95,22 @@ export class GameService {
       )
       .then(() => {
         setTimeout(() => {
-          this.authenticationService.api.player
-            .skipToNext(deviceId)
-            .then(() => {
-              setTimeout(() => {
-                this.authenticationService.api.player
-                  .seekToPosition(randomPos, deviceId)
-                  .then(() => {
-                    this.authenticationService.api.player
-                      .setPlaybackVolume(
-                        this.configurationService.getPlayerVolume(),
-                        deviceId
-                      )
-                      .then(() => {
-                        this.loader.setLoading(false);
-                        this.timer.start(
-                          this.configurationService.getConfiguration()
-                            .guessDuration
-                        );
-                      });
-                  });
-              }, 500);
-            });
+          this.playerService.player.nextTrack().then(() => {
+            setTimeout(() => {
+              this.playerService.player.seek(randomPos).then(() => {
+                this.loader.setLoading(false);
+                this.timer.start(
+                  this.configurationService.getConfiguration().guessDuration
+                );
+              });
+            }, 500);
+          });
         }, 500);
       });
   }
 
   public pausePlayer() {
-    this.authenticationService.api.player.pausePlayback(
-      this.configurationService.getConfiguration().deviceId
-    );
+    this.playerService.player.pause();
   }
 
   public getCurrentTrack(): Track {
@@ -140,13 +119,6 @@ export class GameService {
 
   public getCurrentTrackIndex(): number {
     return this.currentPlayingSongIndex;
-  }
-
-  public modifyVolume(volume: number) {
-    this.authenticationService.api.player.setPlaybackVolume(
-      volume,
-      this.configurationService.getConfiguration().deviceId
-    );
   }
 
   public endGame() {

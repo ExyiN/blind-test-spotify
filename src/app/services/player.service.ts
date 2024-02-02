@@ -46,7 +46,7 @@ export class PlayerService {
             this.spotifyPlayer = new Spotify.Player({
               name: 'BlindTest Web Player',
               getOAuthToken: (cb) => cb(token),
-              volume: +this.configurationService.getPlayerVolume() / 100,
+              volume: +this.configurationService.getPlayerVolume(),
             });
 
             this.spotifyPlayer.addListener('ready', ({ device_id }) => {

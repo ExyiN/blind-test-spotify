@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import { ConfigurationService } from '../../services/configuration.service';
 import { FormsModule } from '@angular/forms';
 import { SliderModule } from 'primeng/slider';
-import { AuthenticationService } from '../../services/authentication.service';
+import { ConfigurationService } from '../../services/configuration.service';
+import { PlayerService } from '../../services/player.service';
 
 @Component({
   selector: 'app-volume-slider',
@@ -16,18 +16,15 @@ export class VolumeSliderComponent implements OnInit {
 
   constructor(
     private configurationService: ConfigurationService,
-    private authenticationService: AuthenticationService
+    private playerService: PlayerService
   ) {}
 
   ngOnInit(): void {
-    this.volume = this.configurationService.getPlayerVolume();
+    this.volume = this.configurationService.getPlayerVolume() * 100;
   }
 
   public modifyVolume() {
-    this.configurationService.modifyVolume(this.volume);
-    this.authenticationService.api.player.setPlaybackVolume(
-      this.volume,
-      this.configurationService.getConfiguration().deviceId
-    );
+    this.configurationService.modifyVolume(this.volume / 100);
+    this.playerService.player.setVolume(this.volume / 100);
   }
 }
