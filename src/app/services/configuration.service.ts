@@ -41,7 +41,7 @@ export class ConfigurationService {
   public getPlayerVolume(): number {
     const volume: string | null = localStorage.getItem('player-volume');
     if (!volume) {
-      return 50;
+      return 0.5;
     }
     return +volume;
   }

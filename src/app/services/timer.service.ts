@@ -14,7 +14,7 @@ export class TimerService {
   public start(start: number) {
     this.timer$.next(start);
     const interval$ = interval(1000);
-    interval$.pipe(takeWhile(() => this.timer$.getValue() >= 0)).subscribe({
+    interval$.pipe(takeWhile(() => this.timer$.getValue() > 0)).subscribe({
       next: () => {
         this.timer$.next(this.timer$.getValue() - 1);
       },
